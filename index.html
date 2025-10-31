@@ -13,17 +13,16 @@
   </head>
   <body>
     <!--Navigation-->
-    <section class="navigation-bar">
-    <nav id="navigation-bar" class="navbar navbar-expand-lg navbar-dark" style="padding-top: 1.5rem">
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
       <div class="container">
-        <div class="navbar-brand">Hong Wei Sheng</div>
+        <a class="navbar-brand" href="#">Hong Wei Sheng</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class=" ms-auto navbar-nav">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link" href="#">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#about">About</a>
@@ -41,7 +40,6 @@
         </div>
       </div>
     </nav>
-    </section>
 
     <!--Home-->
     <section class="home" id="home">
@@ -65,14 +63,11 @@
               </div> 
             </div>
             <div class="buttons1">
-              <a href="https://github.com/ByFutureBear" id="btn_project" class="btn btn-*"
-   target="_blank" rel="noopener noreferrer">
-                <img src="assets/github.png"/>
-</a>
-<a href="https://www.linkedin.com/in/weishenghong/" id="btn_button" class="btn btn-outline-secondary"
-   target="_blank" rel="noopener noreferrer">
-                <img src="assets/linkedin.png"/>
-</a>
+              <a href="https://github.com/ByFutureBear" id="btn_project" class="btn btn-*"target="_blank" rel="noopener noreferrer">
+                <img src="assets/github.png"/></a>
+                <a href="https://www.linkedin.com/in/weishenghong/" id="btn_button" class="btn btn-outline-secondary"
+                  target="_blank" rel="noopener noreferrer">
+                <img src="assets/linkedin.png"/></a>
                 <a href="assets/resume.pdf" download id="btn_resume" class="btn btn-outline-secondary">
                   <img src="assets/resume.png" alt="Download Resume"/> Resume
                 </a>
@@ -408,7 +403,61 @@
         text.style.marginTop = value * 1.5 + 'px';
         btn_explore.style.marginTop = value * 1.5 + 'px';
         header.style.top = value * 0.5 +'px';
-      })
+      });
+
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', function() {
+        const currentScroll = window.scrollY;
+        
+        if (currentScroll > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = document.querySelectorAll('section[id]');
+
+      function updateActiveNav() {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current || 
+              (current === '' && link.getAttribute('href') === '#')) {
+            link.classList.add('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateActiveNav);
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.substring(1);
+            const targetSection = document.getElementById(targetId) || 
+                                 document.querySelector('section.home');
+            if (targetSection) {
+              const offsetTop = targetSection.offsetTop - 70;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+      });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
