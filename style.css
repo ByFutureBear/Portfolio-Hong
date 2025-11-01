@@ -46,7 +46,22 @@ body {
   }
 }
 
+/* Navbar height override */
 #navbar {
+  height: 80px; /* set desired height */
+  background: transparent; /* keep existing background or change */
+}
+
+/* Center brand and nav links vertically inside the new height */
+#navbar .navbar-brand,
+#navbar .nav-link {
+  line-height: 80px; /* match the navbar height */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#navbar {
+  height: 80px;
   background-color: transparent;
   padding: 1.5rem 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
